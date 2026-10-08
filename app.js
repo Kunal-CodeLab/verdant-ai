@@ -403,7 +403,35 @@ function escapeHtml(str) {
 function initTabs() {
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabPanes = document.querySelectorAll('.tab-pane');
-    const navItems = document.querySelectorAll('.nav-item');
+    const allHashLinks = document.querySelectorAll('a[href^="#"]');
+
+    function activateTab(hash) {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabPanes.forEach(p => p.classList.remove('active'));
+
+        if (hash === '#planner') {
+            if (tabBtns[0]) tabBtns[0].classList.add('active');
+            const target = document.getElementById('plannerTab');
+            if (target) target.classList.add('active');
+        } else if (hash === '#doctor') {
+            if (tabBtns[1]) tabBtns[1].classList.add('active');
+            const target = document.getElementById('doctorTab');
+            if (target) target.classList.add('active');
+        } else if (hash === '#quests') {
+            if (tabBtns[2]) tabBtns[2].classList.add('active');
+            const target = document.getElementById('questsTab');
+            if (target) target.classList.add('active');
+        } else if (hash === '#gemma-chat') {
+            if (tabBtns[3]) tabBtns[3].classList.add('active');
+            const target = document.getElementById('gemmaChatTab');
+            if (target) target.classList.add('active');
+        }
+
+        const workspace = document.querySelector('.app-workspace');
+        if (workspace) {
+            workspace.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
 
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -416,20 +444,13 @@ function initTabs() {
         });
     });
 
-    navItems.forEach(nav => {
-        nav.addEventListener('click', (e) => {
-            e.preventDefault();
-            const href = nav.getAttribute('href');
-            navItems.forEach(n => n.classList.remove('active'));
-            nav.classList.add('active');
-
-            if (href === '#planner' && tabBtns[0]) tabBtns[0].click();
-            else if (href === '#doctor' && tabBtns[1]) tabBtns[1].click();
-            else if (href === '#quests' && tabBtns[2]) tabBtns[2].click();
-            else if (href === '#gemma-chat' && tabBtns[3]) tabBtns[3].click();
-
-            const workspace = document.querySelector('.app-workspace');
-            if (workspace) workspace.scrollIntoView({ behavior: 'smooth' });
+    allHashLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#') && href.length > 1) {
+                e.preventDefault();
+                activateTab(href);
+            }
         });
     });
 }

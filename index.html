@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerdantAI — Edge-Native Open-Source Flora & Agronomy Companion</title>
+    <meta name="description" content="An open-weight AI powered outdoor agronomy and ecological companion designed to reduce screen reliance and facilitate real-world horticulture. Powered by Google Gemma open-weight architecture.">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dark-theme">
+    <!-- Ambient Background Lighting -->
+    <div class="ambient-glow glow-top"></div>
+    <div class="ambient-glow glow-bottom"></div>
+
+    <!-- Header Navigation -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Verdant<span>AI</span></h1>
+                    <span class="badge-tag">Hacktoberfest 2026</span>
+                </div>
+            </div>
+
+            <nav class="nav-links">
+                <a href="#planner" class="nav-item active"><i class="fa-solid fa-calendar-days"></i> Sowing Planner</a>
+                <a href="#doctor" class="nav-item"><i class="fa-solid fa-seedling"></i> Plant Diagnostics</a>
+                <a href="#quests" class="nav-item"><i class="fa-solid fa-compass"></i> Field Protocols</a>
+                <a href="#gemma-chat" class="nav-item"><i class="fa-solid fa-brain"></i> Gemma Engine</a>
+            </nav>
+
+            <div class="header-actions">
+                <div class="offline-badge" id="networkStatus">
+                    <span class="status-dot online"></span>
+                    <span class="status-text">Edge Inference Ready</span>
+                </div>
+                <button class="btn btn-secondary btn-sm" id="settingsBtn" title="Inference Engine Configuration">
+                    <i class="fa-solid fa-sliders"></i> Engine Config
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Viewport -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container hero-layout">
+                <div class="hero-content">
+                    <div class="pill-badge">
+                        <i class="fa-solid fa-code-branch"></i> Open-Source AI Architecture
+                    </div>
+                    <h2 class="hero-title">
+                        Decentralized Agronomy. <br>
+                        <span class="gradient-text">Zero Telemetry. Real-World Action.</span>
+                    </h2>
+                    <p class="hero-subtitle">
+                        VerdantAI is an offline-first botanical intelligence platform built on open-weight foundation models (<strong>Google Gemma 2</strong>). Designed to minimize interface latency, eliminate cloud dependency, and guide offline horticultural stewardship.
+                    </p>
+                    <div class="hero-cta-group">
+                        <a href="#quests" class="btn btn-primary">
+                            <i class="fa-solid fa-person-walking"></i> View Daily Field Protocols
+                        </a>
+                        <a href="#doctor" class="btn btn-outline">
+                            <i class="fa-solid fa-microscope"></i> Diagnose Botanical Specimens
+                        </a>
+                    </div>
+
+                    <!-- Metrics -->
+                    <div class="outdoor-stats-bar">
+                        <div class="stat-card">
+                            <span class="stat-num" id="outdoorMinsTotal">45</span>
+                            <span class="stat-lbl">Field Minutes Today</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num" id="currentStreak">5</span>
+                            <span class="stat-lbl">Consecutive Active Days</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num" id="plantsNurtured">12</span>
+                            <span class="stat-lbl">Cultivars Monitored</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Protocol Card -->
+                <div class="hero-visual">
+                    <div class="glass-card quest-preview-card">
+                        <div class="card-glow"></div>
+                        <div class="card-header-bar">
+                            <div class="chip chip-gold"><i class="fa-solid fa-sun"></i> Seasonal Soil Protocol</div>
+                            <span class="time-stamp"><i class="fa-regular fa-clock"></i> Active Task</span>
+                        </div>
+                        <h3>Substrate Aeration & Thermal Mulch Application</h3>
+                        <p class="card-desc">Autumn soil transition phase: evaluate perennial root moisture thresholds and apply a 50mm organic leaf barrier to preserve mycorrhizal networks.</p>
+                        
+                        <div class="quest-tags">
+                            <span class="tag"><i class="fa-solid fa-stopwatch"></i> 15 Minutes</span>
+                            <span class="tag"><i class="fa-solid fa-droplet"></i> Moisture Retention</span>
+                            <span class="tag"><i class="fa-solid fa-shield-halved"></i> Frost Defense</span>
+                        </div>
+
+                        <div class="action-row">
+                            <button class="btn btn-primary btn-block" id="completeHeroQuest">
+                                <i class="fa-solid fa-check"></i> Log Field Execution
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Application Workspace -->
+        <section class="container app-workspace">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="plannerTab">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <span>Micro-Climate Sowing Matrix</span>
+                </button>
+                <button class="tab-btn" data-tab="doctorTab">
+                    <i class="fa-solid fa-stethoscope"></i>
+                    <span>Pathology & Diagnostic Engine</span>
+                </button>
+                <button class="tab-btn" data-tab="questsTab">
+                    <i class="fa-solid fa-shoe-prints"></i>
+                    <span>Field Protocols & Stewardship</span>
+                </button>
+                <button class="tab-btn" data-tab="gemmaChatTab">
+                    <i class="fa-solid fa-brain"></i>
+                    <span>Gemma 2 Botanical Reasoning</span>
+                </button>
+            </div>
+
+            <!-- Tab 1: Sowing Matrix -->
+            <div class="tab-pane active" id="plannerTab">
+                <div class="pane-grid">
+                    <!-- Configuration Panel -->
+                    <div class="glass-card pane-sidebar">
+                        <h3><i class="fa-solid fa-location-crosshairs"></i> Regional Parameters</h3>
+                        <p class="text-muted">Calculates local frost thresholds, vernalization cycles, and photoperiod windows locally on the client machine.</p>
+
+                        <form id="climateForm" class="climate-form">
+                            <div class="form-group">
+                                <label for="climateZone">Agricultural Climate Zone</label>
+                                <select id="climateZone" class="form-input">
+                                    <option value="zone_temperate_north">Zone 5-6 (Continental / Severe Frost)</option>
+                                    <option value="zone_moderate" selected>Zone 7-8 (Temperate / Extended Autumn)</option>
+                                    <option value="zone_warm_subtropical">Zone 9-10 (Subtropical / Mild Winter)</option>
+                                    <option value="zone_tropical">Zone 11+ (Tropical / Continuous Photoperiod)</option>
+                                    <option value="zone_india_monsoon">South Asian Plain (Rabi Autumn-Winter Cycle)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="currentMonth">Target Sowing Period</label>
+                                <select id="currentMonth" class="form-input">
+                                    <option value="10" selected>October (Mid-Autumn / Post-Monsoon)</option>
+                                    <option value="11">November (Late Autumn Transition)</option>
+                                    <option value="12">December (Early Winter)</option>
+                                    <option value="1">January (Mid Winter Dormancy)</option>
+                                    <option value="2">February (Late Winter Awakening)</option>
+                                    <option value="3">March (Early Spring Germination)</option>
+                                    <option value="4">April (Mid Spring Vegetation)</option>
+                                    <option value="5">May (Late Spring / Early Summer)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="gardenType">Cultivation Topology</label>
+                                <select id="gardenType" class="form-input">
+                                    <option value="backyard">Open Ground & Raised Beds</option>
+                                    <option value="balcony">High-Density Container Substrates</option>
+                                    <option value="indoor_windowsill">Protected Micro-Climates & Cold Frames</option>
+                                    <option value="orchard">Perennial Silvopasture & Agroforestry</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fa-solid fa-arrows-rotate"></i> Compute Sowing Matrix
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Computed Sowing Data -->
+                    <div class="glass-card pane-main">
+                        <div class="schedule-header">
+                            <div>
+                                <h3 id="scheduleTitle">October Sowing & Management Matrix</h3>
+                                <p class="text-muted" id="frostDateInfo">Estimated First Frost: <strong>November 15 - 20</strong> (35-40 days window remaining)</p>
+                            </div>
+                            <div class="badge-count" id="recommendedCropsCount">6 Optimal Cultivars</div>
+                        </div>
+
+                        <div class="crops-grid" id="cropsGrid">
+                            <!-- Populated dynamically via app.js -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Pathology & Diagnostics -->
+            <div class="tab-pane" id="doctorTab">
+                <div class="doctor-layout">
+                    <div class="glass-card doctor-upload-card">
+                        <h3><i class="fa-solid fa-microscope"></i> Specimen Symptom Assessment</h3>
+                        <p class="text-muted">Analyze leaf chlorosis, necrotic margins, and pest vectors using localized botanical classification algorithms.</p>
+
+                        <div class="upload-zone" id="dropZone">
+                            <input type="file" id="plantPhotoInput" accept="image/*" class="file-input-hidden">
+                            <div class="upload-placeholder" id="uploadPlaceholder">
+                                <div class="upload-icon-circle">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                </div>
+                                <h4>Mount specimen image or load capture</h4>
+                                <p class="text-sm">Accepts foliage, root crown, and stem captures (JPEG, PNG, WebP)</p>
+                            </div>
+                            <div class="preview-container hidden" id="previewContainer">
+                                <img id="imagePreview" alt="Specimen Preview" class="plant-preview-img">
+                                <button type="button" class="btn-remove-img" id="removeImgBtn" title="Clear image">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="sample-chips-row">
+                            <span class="chip-label">Known Pathology Vectors:</span>
+                            <button class="sample-chip" data-sample="yellow_leaves">Interveinal Chlorosis</button>
+                            <button class="sample-chip" data-sample="powdery_mildew">Erysiphales Foliar Mycelium</button>
+                            <button class="sample-chip" data-sample="pest_bites">Coleopteran / Larval Defoliation</button>
+                            <button class="sample-chip" data-sample="brown_tips">Marginal Osmotic Necrosis</button>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="symptomNotes">Field Observational Context:</label>
+                            <textarea id="symptomNotes" rows="2" class="form-input" placeholder="e.g., Upper foliage curling, saturated loamy substrate, full exposure to southern orientation."></textarea>
+                        </div>
+
+                        <button class="btn btn-primary btn-block" id="diagnoseBtn">
+                            <i class="fa-solid fa-magnifying-glass"></i> Execute Diagnostic Pipeline
+                        </button>
+                    </div>
+
+                    <!-- Diagnosis Evaluation -->
+                    <div class="glass-card doctor-result-card" id="diagnosisResultBox">
+                        <div class="result-placeholder" id="diagnosisPlaceholder">
+                            <div class="placeholder-art">
+                                <i class="fa-solid fa-vial-circle-check"></i>
+                            </div>
+                            <h4>Diagnostic Engine Idle</h4>
+                            <p class="text-muted">Select a pathology vector or upload a specimen image to execute root-cause analysis and remediation steps.</p>
+                        </div>
+
+                        <div class="result-content hidden" id="diagnosisContent">
+                            <div class="diagnosis-header">
+                                <div>
+                                    <span class="confidence-tag" id="diagConfidence">94% Confidence</span>
+                                    <h3 id="diagTitle">Nitrogen Starvation & Hypoxic Root Stress</h3>
+                                    <p class="text-muted" id="diagPlantFamily">Taxa: Solanaceae / Capsicum / Lycopersicon</p>
+                                </div>
+                                <button class="btn btn-outline btn-sm" id="speakDiagBtn" title="Text-To-Speech Narration">
+                                    <i class="fa-solid fa-volume-high"></i> Hands-Free Audio
+                                </button>
+                            </div>
+
+                            <div class="diag-section">
+                                <h4><i class="fa-solid fa-circle-info"></i> Etiology & Symptomatology</h4>
+                                <p id="diagDescription">Chlorotic discoloration across older leaves indicates nitrogen translocation caused by root-zone hypoxia resulting from oversaturated substrate.</p>
+                            </div>
+
+                            <div class="diag-remedy-grid">
+                                <div class="remedy-box organic">
+                                    <h5><i class="fa-solid fa-hand-holding-droplet"></i> Remediation Protocol</h5>
+                                    <ul id="diagOutdoorSteps">
+                                        <li>Suspend supplemental irrigation until the upper 50mm substrate reaches field capacity.</li>
+                                        <li>Perform manual radial root zone aeration 100mm from crown.</li>
+                                        <li>Incorporate aerated compost tea to restore mycorrhizal colonization.</li>
+                                    </ul>
+                                </div>
+                                <div class="remedy-box prevention">
+                                    <h5><i class="fa-solid fa-shield-heart"></i> Preventive Agronomic Controls</h5>
+                                    <p id="diagPrevention">Amend planting beds with coarse organic matter and perlite to enhance substrate porosity and gas exchange.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Field Protocols & Stewardship -->
+            <div class="tab-pane" id="questsTab">
+                <div class="quests-container">
+                    <div class="quests-intro-banner">
+                        <div class="banner-text">
+                            <h3><i class="fa-solid fa-mountain-sun"></i> Field Operations & Habitat Stewardship</h3>
+                            <p>Structured agronomic and ecological protocols formulated to transfer computational workflows into empirical outdoor engagement.</p>
+                        </div>
+                        <div class="streak-tracker-badge">
+                            <div class="streak-flame"><i class="fa-solid fa-award"></i></div>
+                            <div>
+                                <span class="streak-val" id="boardStreak">5 Days</span>
+                                <span class="streak-sub">Field Log Integrity</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quest-filters">
+                        <button class="filter-btn active" data-filter="all">All Operations</button>
+                        <button class="filter-btn" data-filter="micro">Micro Tasks (5-15m)</button>
+                        <button class="filter-btn" data-filter="deep">Agronomic Operations (30m+)</button>
+                        <button class="filter-btn" data-filter="trail">Ecological Survey</button>
+                    </div>
+
+                    <div class="quest-cards-grid" id="questsGrid">
+                        <!-- Populated dynamically via app.js -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Gemma 2 Assistant -->
+            <div class="tab-pane" id="gemmaChatTab">
+                <div class="gemma-chat-layout">
+                    <div class="chat-sidebar glass-card">
+                        <div class="sidebar-badge">
+                            <i class="fa-brands fa-google"></i> Google Gemma 2 Engine
+                        </div>
+                        <h3>Open-Weight Intelligence</h3>
+                        <p class="text-sm text-muted">
+                            Powered by open-weight model architectures. Supports local execution via <strong>Ollama, vLLM, LM Studio</strong>, or edge heuristic kernels with zero data telemetry.
+                        </p>
+
+                        <div class="engine-selector-box">
+                            <label class="text-xs font-semibold">Active Inference Engine:</label>
+                            <select id="aiEngineSelect" class="form-input text-sm">
+                                <option value="gemma_embedded">Gemma-2B (Local Edge Knowledge Kernel)</option>
+                                <option value="ollama_local">Local Ollama Service (localhost:11434 / Gemma 2)</option>
+                                <option value="custom_open">Standard OpenAI / vLLM Endpoint</option>
+                            </select>
+                        </div>
+
+                        <div class="preset-prompts">
+                            <span class="text-xs font-semibold text-muted">Agronomic Inquiries:</span>
+                            <button class="prompt-chip" data-prompt="What are optimal companion planting pairings for over-wintering brassicas and root crops?">Companion configurations for cold-season crops</button>
+                            <button class="prompt-chip" data-prompt="Detail an accelerated thermophilic composting protocol utilizing autumn carbon inputs.">Accelerated autumn carbon composting</button>
+                            <button class="prompt-chip" data-prompt="Explain ecological strategies to enhance solitary bee pollination in urban microclimates.">Urban solitary bee habitat design</button>
+                            <button class="prompt-chip" data-prompt="Define an observational protocol for assessing soil aggregate structure in the field.">Field soil structure assessment protocol</button>
+                        </div>
+                    </div>
+
+                    <div class="chat-main-area glass-card">
+                        <div class="chat-messages-container" id="chatMessages">
+                            <div class="message-bubble bot-message">
+                                <div class="message-avatar"><i class="fa-solid fa-leaf"></i></div>
+                                <div class="message-body">
+                                    <strong>Verdant Gemma Assistant</strong>
+                                    <p>Verdant botanical intelligence online. Running on open-weight architecture. Submit queries regarding soil biochemistry, companion planting, pathology remediation, or seasonal crop management.</p>
+                                    <span class="msg-meta">Google Gemma Architecture • Zero Data Exfiltration</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form id="chatForm" class="chat-input-bar">
+                            <input type="text" id="chatUserInput" placeholder="Enter inquiry regarding substrate biology, phenology, or cultural practices..." autocomplete="off">
+                            <button type="button" class="btn-chat-action" id="voiceInputBtn" title="Speech Input Interface">
+                                <i class="fa-solid fa-microphone"></i>
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-icon" id="sendMsgBtn" title="Submit Message">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Environmental Sound Synthesizer -->
+        <section class="container mt-4 mb-4">
+            <div class="glass-card nature-audio-bar">
+                <div class="audio-info">
+                    <div class="audio-icon"><i class="fa-solid fa-wave-square"></i></div>
+                    <div>
+                        <h4>Real-Time Environmental Sound Synthesizer</h4>
+                        <p class="text-sm text-muted">Procedural Web Audio synthesis of forest canopy breeze, precipitation, and avian acoustics without external asset fetching.</p>
+                    </div>
+                </div>
+                <div class="audio-controls">
+                    <button class="btn-audio-toggle" id="toggleForestAudio" data-sound="forest">
+                        <i class="fa-solid fa-wind"></i> Canopy Wind
+                    </button>
+                    <button class="btn-audio-toggle" id="toggleRainAudio" data-sound="rain">
+                        <i class="fa-solid fa-cloud-rain"></i> Precipitation
+                    </button>
+                    <button class="btn-audio-toggle" id="toggleBirdsAudio" data-sound="birds">
+                        <i class="fa-solid fa-dove"></i> Avian Bioacoustics
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Configuration Modal -->
+    <div class="modal-overlay hidden" id="settingsModal">
+        <div class="modal-box glass-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-sliders"></i> Engine Architecture Configuration</h3>
+                <button class="modal-close" id="closeSettingsBtn" title="Close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Foundation Model Selection</label>
+                    <select id="modalModelFamily" class="form-input">
+                        <option value="gemma2-2b">Google Gemma 2 (2B Parameters - Ultra-Lightweight Edge)</option>
+                        <option value="gemma2-9b" selected>Google Gemma 2 (9B Parameters - Standard Agronomy Precision)</option>
+                        <option value="gemma2-27b">Google Gemma 2 (27B Parameters - Deep Analytical Mode)</option>
+                        <option value="custom">Standard Open-Weight Model (Llama-3 / Mistral)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Local Inference Endpoint (Ollama / LocalAI / vLLM)</label>
+                    <input type="text" id="ollamaEndpointInput" class="form-input" value="http://localhost:11434" placeholder="http://localhost:11434">
+                    <span class="text-xs text-muted">Configure your local HTTP inference daemon for offline compute.</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Bearer Token / Authorization Header (Optional)</label>
+                    <input type="password" id="customApiKeyInput" class="form-input" placeholder="Optional bearer token for secured inference nodes">
+                </div>
+
+                <div class="toggle-row">
+                    <label for="offlineModeToggle">Enforce Zero-Telemetry Offline Mode</label>
+                    <input type="checkbox" id="offlineModeToggle" checked>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-block" id="saveSettingsBtn">Commit Engine Parameters</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toasts -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-left">
+                <p><strong>VerdantAI</strong> — Open-Source Ecological Intelligence. Developed for <strong>Hacktoberfest 2026</strong> Week 1 Challenge.</p>
+                <p class="text-xs text-muted">Licensed under the MIT License. Built with open-weight foundation models and web standards.</p>
+            </div>
+            <div class="footer-right">
+                <a href="https://github.com/Kunal-CodeLab/verdant-ai" target="_blank" class="footer-link"><i class="fa-brands fa-github"></i> Repository</a>
+                <a href="https://dev.to/challenges/hacktoberfest-week1-2026-10-05" target="_blank" class="footer-link"><i class="fa-solid fa-trophy"></i> Challenge Brief</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
